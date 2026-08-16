@@ -10,17 +10,20 @@
 
 VkInstance instance = {0};
 
-int Render_Init(void){
-    if(SDL_InitSubSystem(SDL_INIT_VIDEO)){}
-}
 
-static void create_instance(App *app){
-    uint32_t extension_count = 0;
-    const char* const* extensions = SDL_Vulk
-}
+typedef struct Renderer{
+    VkInstance instance;
+    VkSurfaceKHR surface;
+    VkPhysicalDevice gpu;
+    VkDevice device;
+    uint32_t graphics_family;
+    VkQueue graphics_queue;
+    VkQueue current_queue;
+}Renderer;
 
 
-int VkAPP(void){
+
+int renderer_init(Renderer* r, SDL_Window* window){
     volkInitialize();
     
     VkApplicationInfo appInfo = {
@@ -37,6 +40,5 @@ int VkAPP(void){
 
     verify(vkCreateInstance(&createInfo, nullptr, &instance));
     
-
-
 }
+

@@ -1,43 +1,27 @@
 #include "types.h"
 #include "logging.h"
-#include "platform.h"
+#include "world/ecs.h"
 
 
 
-
-typedef struct EntityReference{
-    uint8_t generation;
-    uint8_t table;
-    uint32_t object;
-}EntityReference;
-
-
-typedef struct ECS{
-    EntityReference* sparseSet;
-    uint32_t count;
-    uint32_t capacity;
-}ECS;
-
-
-
-ECS* CreateECS(size_t limit){
-    ECS* ecs = malloc(sizeof(ECS));
-    if(ecs == NULL){
+Entities* CreateECS(size_t limit){
+    Entities* entities = malloc(sizeof(entities));
+    if(entities == NULL){
         return NULL;
     }
 
-    ecs->sparseSet = malloc(sizeof(EntityReference) * limit);
-    if(ecs->sparseSet == NULL){
-        free(ecs);
+    entities->sparseSet = malloc(sizeof(EntityReference) * limit);
+    if(entities->sparseSet == NULL){
+        free(entities);
         return NULL;
     }
 
-    ecs->count = 0;    
-    ecs->capacity = (uint32_t)limit;
+    entities->count = 0;    
+    entities->capacity = (uint32_t)limit;
 
-    return ecs;
+    return entities;
 }
 
 
 
-int Entities_Push()
+int Entities_Push(){}
