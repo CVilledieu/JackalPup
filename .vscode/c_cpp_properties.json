@@ -3,9 +3,11 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**",
+                "${workspaceFolder}/include/*",
                 "${workspaceFolder}/src/*",
-                "C:/VulkanSDK/1.4.357.0/include/*"
+                "${workspaceFolder}/src/common/*",
+                "${workspaceFolder}/src/engine/*",
+                "${workspaceFolder}/src/app/*"
             ],
             "cStandard": "c23",
             "intelliSenseMode": "windows-gcc-x64"

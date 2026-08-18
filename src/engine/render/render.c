@@ -1,44 +1,66 @@
-#include <SDL3/SDL.h>
-#include <SDL3/SDL_vulkan.h>
-#include <vulkan/vulkan.h>
-#include <stdlib.h>
-
-#include "config.h"
-#include "core/types.h"
-#include "core/logging.h"
+#include "render.h"
+#include "glad/glad.h"
 
 
-VkInstance instance = {0};
+typedef struct DrawState{
+    uint8_t current;
+    GLsync frames[(size_t)FRAME_COUNT];
+}DrawState;
 
+typedef struct ShaderEffects{
 
-typedef struct Renderer{
-    VkInstance instance;
-    VkSurfaceKHR surface;
-    VkPhysicalDevice gpu;
-    VkDevice device;
-    uint32_t graphics_family;
-    VkQueue graphics_queue;
-    VkQueue current_queue;
-}Renderer;
+}ShaderEffects;
+
+DrawState g_drawState = {0};
 
 
 
-int renderer_init(Renderer* r, SDL_Window* window){
-    volkInitialize();
-    
-    VkApplicationInfo appInfo = {
-        .sType = VK_STRUCTURE_TYPE_APPLICATION_INFO,
-        .apiVersion = VK_API_VERSION_1_4,
-        .pApplicationName = APP_NAME,
-        .applicationVersion = APP_VERSION,
-    };
-
-    VkInstanceCreateInfo createInfo = { 
-        .sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO,
-        .pApplicationInfo = &appInfo,
-     };
-
-    verify(vkCreateInstance(&createInfo, nullptr, &instance));
+void RenderEngine_init(void){
+    //Init frame statuses to zero value
+    for (int i = 0; i < FRAME_COUNT; i++){
+        g_drawState.frames[i] = NULL;
+    }
+    g_drawState.current = 0;
     
 }
 
+
+void RenderEngine_shutdown(void){
+    
+}
+
+
+
+
+static inline void ClearFrame(void){
+    glClearColor(DEFAULT_FRAME_COLOR);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+
+//
+int Draw(void){
+    //Verify gpu is done with the frame I want to write to
+    GLenum frameStatus = 0;
+    do{
+        frameStatus = glClientWaitSync(g_drawState.frames[g_drawState.current], 0, AWAIT_GPU_TIMEOUT);
+        if(frameStatus == GL_WAIT_FAILED){
+            return 1; 
+        }
+    }while(frameStatus != GL_ALREADY_SIGNALED && frameStatus != GL_CONDITION_SATISFIED);
+    glDeleteSync(g_drawState.frames[g_drawState.current]);
+
+    ClearFrame();
+
+
+
+
+
+
+    
+    //Submit frame to GPU and move frame tracker forward
+    g_drawState.frames[g_drawState.current] = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
+    g_drawState.current = (uint8_t)((g_drawState.current + 1) % FRAME_COUNT);
+
+    return 0;
+}

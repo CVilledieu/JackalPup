@@ -1,8 +1,8 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
-#include "platform.h"
 
-int main(int argc, char *argv[]){
+
+int main(void){
     //Init process
     SDL_Window* window;
     if(Platform_Init(window)){
@@ -16,4 +16,3 @@ int main(int argc, char *argv[]){
     //Shutdown
 }
 
-constexpr
