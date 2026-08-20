@@ -7,9 +7,7 @@ typedef struct DrawState{
     GLsync frames[(size_t)FRAME_COUNT];
 }DrawState;
 
-typedef struct ShaderEffects{
 
-}ShaderEffects;
 
 DrawState g_drawState = {0};
 
@@ -36,6 +34,15 @@ static inline void ClearFrame(void){
     glClearColor(DEFAULT_FRAME_COLOR);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
+
+
+
+
+static void DrawPass(){
+
+}
+
+
 
 
 //

@@ -16,3 +16,7 @@ int Platform_Init(SDL_Window* window){
     }
 
 }
+
+int LoadFiles(){
+    
+}
