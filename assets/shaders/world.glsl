@@ -1,4 +1,6 @@
 
+#extension GL_ARB_shader_draw_parameters : require
+
 struct InstanceXform{
     mat4 model;
     mat4 normal;

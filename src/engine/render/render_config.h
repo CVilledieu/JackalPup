@@ -19,6 +19,20 @@
 #define SHADER_MAX_DEFINES 8
 
 
+//Shader version data included on all shaders
+#define SHADER_VERSION "#version 460 core \n"
+
+
+//Shader file define logic
+#define TRANSPARENT_SHADER_DEFINES_COUNT 1
+#define TRANSPARENT_SHADER_DEFINES {"#define TRANSPARENT_PASS 1\n"}
+
+#define OPAQUE_SHADER_DEFINES_COUNT 1
+#define OPAQUE_SHADER_DEFINES {"#define OPAQUE_PASS 1\n"}
+
+
+
+//Shader options
 typedef enum ShaderEffects{
     TRANSPARENT = 0,
     OPAQUE,

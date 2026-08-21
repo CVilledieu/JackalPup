@@ -2,36 +2,33 @@
 #include "glad/glad.h"
 #include "logging.h"
 
-//Shader version data included on all shaders
-#define SHADER_VERSION "#version 460 core \n #extension GL_ARB_shader_draw_parameters : require\n"
+/* DEV NOTE:
+    At the moment render module compiles parts of a shader program multiple times to form different programs. Meaning that if the number of shaders grows Consider compiling parts the once and then link them 
 
-//Defines used to seperate logic within the shader files
-#define SHADER_TRANSPARENT "#define TRANSPARENT_PASS 1\n"
-#define SHADER_OPAQUE "#define OPAQUE_PASS 1\n"
+*/
 
 
-void DestroyShader(SEffect shader){
-    if(!shader){
-        return;
-    }
-    glDeleteProgram(shader);
-}
-
-
-static uint32_t CompileEffect(GLenum shaderType, const ShaderDesc* desc, const char* body){
-    uint32_t shader = glCreateShader(shaderType);
+//Called by BuildShader
+//Compiles a single stage of a shader.
+static uint32_t CompileEffect(GLenum stage, const ShaderDesc* desc, const char* body){
+    uint32_t shader = glCreateShader(stage);
     if(!shader){
         LOG_ERROR("Unable to create shader id");
         return 0;
     }
 
     //Source order: #version, feature defines, then the stage body
+    //src array length has a base of 2 to account for the only required parts: version and body
     const char* src[2 + SHADER_MAX_DEFINES];
     GLsizei count = 0;
     src[count++] = SHADER_VERSION;
-    for(int i = 0; i < desc->defineCount; ++i){
-        src[count++] = desc->defines[i];
+
+    if(desc->defineCount > 0){
+        for(int i = 0; i < desc->defineCount; ++i){
+            src[count++] = desc->defines[i];
+        }
     }
+
     src[count++] = body;
 
     glShaderSource(shader, count, src, NULL);
