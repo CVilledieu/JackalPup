@@ -1,16 +1,18 @@
-#include "render.h"
+#include "render_config.h"
 #include "glad/glad.h"
+#include "shaders.h"
+#include "platform/platform.h"
+
 
 
 typedef struct DrawState{
     uint8_t current;
     GLsync frames[(size_t)FRAME_COUNT];
+    uint32_t Seffects[(size_t)SHADER_COUNT];
 }DrawState;
 
 
-
 DrawState g_drawState = {0};
-
 
 
 void RenderEngine_init(void){
@@ -19,12 +21,37 @@ void RenderEngine_init(void){
         g_drawState.frames[i] = NULL;
     }
     g_drawState.current = 0;
+
+    char* worldFileData;
+    char* surfaceFileData;
+
+    ReadAssetFile(WORLD_SHADER_FILE, worldFileData);
+    ReadAssetFile(SURFACE_SHADER_FILE, surfaceFileData);
+
+
+    ShaderDesc transDesc = {
+        .vertexSrc = worldFileData,
+        .fragmentSrc = surfaceFileData,
+        .defines[0] = "#define TRANSPARENT_PASS",
+        .defineCount = 1,
+    };
+    ShaderDesc opaqueDesc = {
+        .vertexSrc = worldFileData,
+        .fragmentSrc = surfaceFileData,
+        .defineCount = 0,
+    };
+
+    g_drawState.Seffects[TRANSPARENT] = BuildShader(&transDesc);
+    g_drawState.Seffects[OPAQUE] = BuildShader(&opaqueDesc);
+
     
 }
 
 
 void RenderEngine_shutdown(void){
-    
+    for (int i = 0; i < SHADER_COUNT; i++){
+        DestroyShader(g_drawState.Seffects[i]);
+    }
 }
 
 
@@ -34,14 +61,6 @@ static inline void ClearFrame(void){
     glClearColor(DEFAULT_FRAME_COLOR);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
-
-
-
-
-static void DrawPass(){
-
-}
-
 
 
 
@@ -58,9 +77,6 @@ int Draw(void){
     glDeleteSync(g_drawState.frames[g_drawState.current]);
 
     ClearFrame();
-
-
-
 
 
 

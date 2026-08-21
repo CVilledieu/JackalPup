@@ -1,5 +1,4 @@
-#include "render/shaders.h"
-#include <stdint.h>
+#include "render/render_config.h"
 #include "glad/glad.h"
 #include "logging.h"
 
@@ -9,6 +8,14 @@
 //Defines used to seperate logic within the shader files
 #define SHADER_TRANSPARENT "#define TRANSPARENT_PASS 1\n"
 #define SHADER_OPAQUE "#define OPAQUE_PASS 1\n"
+
+
+void DestroyShader(SEffect shader){
+    if(!shader){
+        return;
+    }
+    glDeleteProgram(shader);
+}
 
 
 static uint32_t CompileEffect(GLenum shaderType, const ShaderDesc* desc, const char* body){
@@ -44,7 +51,7 @@ static uint32_t CompileEffect(GLenum shaderType, const ShaderDesc* desc, const c
 }
 
 
-uint32_t BuildShader(const ShaderDesc* desc){
+SEffect BuildShader(const ShaderDesc* desc){
     if(!desc || desc->defineCount < 0 || desc->defineCount > SHADER_MAX_DEFINES){
         LOG_ERROR("Invalid shader descriptor");
         return 0;
@@ -58,7 +65,7 @@ uint32_t BuildShader(const ShaderDesc* desc){
     };
     const int stageCount = (int)(sizeof(stages) / sizeof(stages[0]));
 
-    uint32_t program = glCreateProgram();
+    SEffect program = glCreateProgram();
     if(!program){
         LOG_ERROR("Unable to create shader program");
         return 0;
@@ -110,10 +117,3 @@ uint32_t BuildShader(const ShaderDesc* desc){
     return program;
 }
 
-
-void DestroyShader(uint32_t shader){
-    if(!shader){
-        return;
-    }
-    glDeleteProgram(shader);
-}

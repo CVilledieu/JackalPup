@@ -1,10 +1,20 @@
 #ifndef RENDER_H
 #define RENDER_H
+#include "common/types.h"
 
-#define AWAIT_GPU_TIMEOUT 1000000ULL 
-#define FRAME_COUNT 3
+typedef struct InstanceXform{
+    mat4 model;
+    mat4 normal;
+}InstanceXform;
 
-#define DEFAULT_FRAME_COLOR 0.0f, 0.0f, 0.0f, 1.0f
+typedef struct Material{
+    uint8_t layer;
+    uint8_t _pad0;
+    uint8_t _pad1;
+    uint8_t _pad2;
+    vec4 baseColor;
+}Material;
+
 
 void RenderEngine_init(void);
 void RenderEngine_shutdown(void);

@@ -17,6 +17,6 @@ int Platform_Init(SDL_Window* window){
 
 }
 
-int LoadFiles(){
+int ReadAssetFile(const char* fName, const char* dest){
     
 }
