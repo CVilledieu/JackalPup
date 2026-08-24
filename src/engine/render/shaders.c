@@ -1,51 +1,64 @@
-#include "render/render_config.h"
+#include "SFON.h"
 #include "glad/glad.h"
 #include "logging.h"
 
-/* DEV NOTE:
-    At the moment render module compiles parts of a shader program multiple times to form different programs. Meaning that if the number of shaders grows Consider compiling parts the once and then link them 
 
-*/
+
+// PROTOTYPING BELOW! CODE NOT CURRENTLY IN USE
+//  Checking to see if shaders.c should build a list of ShaderPrograms to be sent back to the renderer
+//  ATM BuildShader compiles all required shaders and then Links them to a program regardless if the shader had been built before
+//  NEW APPROACH: Build shaders by parts. Create all shader parts once then link based on ShaderRef requests
+
+
 
 
 //Called by BuildShader
-//Compiles a single stage of a shader.
-static uint32_t CompileEffect(GLenum stage, const ShaderDesc* desc, const char* body){
-    uint32_t shader = glCreateShader(stage);
-    if(!shader){
-        LOG_ERROR("Unable to create shader id");
+//Compiles a single module of a shader.
+static uint32_t CompileModule(GLenum stage, const char* modSrc, const char** options, uint8_t optionCount){
+    uint32_t module = glCreateShader(stage);
+    if(!module){
+        LOG_ERROR("Unable to create module id");
         return 0;
     }
 
     //Source order: #version, feature defines, then the stage body
     //src array length has a base of 2 to account for the only required parts: version and body
-    const char* src[2 + SHADER_MAX_DEFINES];
+    const char* src[2 + MAX_OPTIONS];
     GLsizei count = 0;
     src[count++] = SHADER_VERSION;
 
-    if(desc->defineCount > 0){
-        for(int i = 0; i < desc->defineCount; ++i){
-            src[count++] = desc->defines[i];
+    if(optionCount > 0){
+        for(int i = 0; i < optionCount; i++){
+            src[count++] = options[i];
         }
     }
 
-    src[count++] = body;
+    src[count++] = modSrc;
+    glShaderSource(module, count, src, NULL);
+    glCompileShader(module);
 
-    glShaderSource(shader, count, src, NULL);
-    glCompileShader(shader);
-    
     GLint ok = 0;
-    glGetShaderiv(shader, GL_COMPILE_STATUS, &ok);
+    glGetShaderiv(module, GL_COMPILE_STATUS, &ok);
     if(!ok){
         char buffer[1024];
-        glGetShaderInfoLog(shader, (GLsizei)sizeof(buffer), NULL, buffer);
+        glGetShaderInfoLog(module, (GLsizei)sizeof(buffer), NULL, buffer);
         LOG_ERROR("Shader compile failed.\n Shader Log:\n %s\n", buffer);
-        glDeleteShader(shader);
+        glDeleteShader(module);
         return 0;
     }
 
-    return shader;
+    return module;
+
 }
+
+
+
+int BuildShader(){
+
+}
+
+
+
 
 
 SEffect BuildShader(const ShaderDesc* desc){
@@ -113,4 +126,5 @@ SEffect BuildShader(const ShaderDesc* desc){
 
     return program;
 }
+
 
