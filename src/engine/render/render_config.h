@@ -16,19 +16,19 @@
 #define MAX_OPTIONS 8
 
 
-typedef enum ShaderTypes{
+typedef enum EffectTypes{
     FRAGMENT = GL_FRAGMENT_SHADER,
     VERTEX = GL_VERTEX_SHADER,
     GEOMETRY = GL_GEOMETRY_SHADER,
-}ShaderTypes;
+}EffectTypes;
 
 
-//Effect options
-typedef enum ShaderEffects{
+//All code below is deprecated due to change in design pattern
+typedef enum EffectOptions{
     TRANSPARENT = 0,
     OPAQUE,
     EFFECT_COUNT
-}ShaderEffects;
+}EffectOptions;
 
 typedef uint32_t SEffect;
 

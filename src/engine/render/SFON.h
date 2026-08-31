@@ -31,7 +31,7 @@ static ShaderFile SFON[] = {
         .shaderType = VERTEX,
     },
     {
-        .fName = "surface.glsl",
+        .fName = "surface.glsl", Oh right.
         .shaderType = FRAGMENT,
     },
 };
