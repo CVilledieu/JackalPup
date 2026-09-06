@@ -3,7 +3,10 @@
 
 #include <stdio.h>
 
-#define TOSTRING(x) #x
+
+#define SO_STR2(x) #x
+#define TOSTRING(x) SO_STR2(x)
+
 
 #define LOG_ERROR(...) do{ \
     fprintf(stderr, "File: %s, Line: %d,\n", __FILE__, __LINE__); \
