@@ -2,10 +2,7 @@
 #define LOGGING_H
 
 #include <stdio.h>
-
-
-#define SO_STR2(x) #x
-#define TOSTRING(x) SO_STR2(x)
+#include "util.h"
 
 
 #define LOG_ERROR(...) do{ \
@@ -22,10 +19,6 @@
 		LOG_MESSAGE(stderr, TOSTRING(r));\
 	} \
 }while(0)
-
-
-
-
 
 
 
