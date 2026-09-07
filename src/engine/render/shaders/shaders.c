@@ -3,22 +3,20 @@
     shader source body from disk once, so the files only need to be opened one time.
 
     After that the engine calls CreateDrawEffect(effect) to compile and link the
-    stages declared for that effect in shader_files.h.
+    stages declared for that effect in shader_files.c.
 
     Once every effect has been built the source bodies can be released with
     FreeShaderData to reduce memory footprint.
 */
 
+#include "engine/render/shaders/shader_config.h"
 #include "render_config.h"
-#include "render/shader_files.h"
 #include "platform/platform.h"
 #include "common/logging.h"
 #include <stdlib.h>
 
 
-
 #define MAX_OPTIONS 8
-
 
 //Source bodies loaded from disk, indexed by ShaderBody. Owned by this module.
 static char *shaderBodies[TOTAL_SHADER_BODIES] = {0};

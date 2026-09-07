@@ -2,13 +2,11 @@
 #define ENGINE_RENDER_SHADERS_H
 
 
-//One row per shader source file. Index = ShaderBody. File names are relative to assets/.
-typedef struct ShaderFile{
-    GLenum stage;
-    const char *fileName;
-}ShaderFile;
-
-extern ShaderEffectDef shaderEffects;
-
+//Index of a linked shader effect (program) in the effect table
+typedef enum ShaderEffect{
+    EFFECT_OPAQUE,
+    EFFECT_TRANSPARENT,
+    SHADER_EFFECT_COUNT
+}ShaderEffect;
 
 #endif

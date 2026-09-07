@@ -1,11 +1,6 @@
 #ifndef ENGINE_PLATFORM_H
 #define ENGINE_PLATFORM_H
 
-#include <SDL3/SDL.h>
-#include <SDL3/SDL_vulkan.h>
-
-int Platform_Init(SDL_Window* window);
-
 
 //Reads an asset file whole and returns a malloc'd, NUL-terminated buffer the
 //caller must free. fName is relative to assets/. Returns NULL on failure.

@@ -4,9 +4,9 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/include/*",
-                "${workspaceFolder}/src/*",
+                "${workspaceFolder}/src/**",
                 "${workspaceFolder}/src/engine/*",
-                "${workspaceFolder}/src/app/*"
+                "${workspaceFolder}/src/apps/*"
             ],
             "cStandard": "c23",
             "intelliSenseMode": "windows-gcc-x64"

@@ -1,5 +1,5 @@
-#include "shaders.h"
-#include "render/render_config.h"
+#include "engine/render/shaders/shader_config.h"
+#include "render_config.h"
 
 #define SHADER_FILE_NAME(name) "shaders/" name ".glsl"
 #define SHADER_FILE(stageType, name) { \
@@ -16,13 +16,7 @@
 
 
 //One row per shader source file. Index = ShaderBody. File names are relative to assets/.
-typedef struct ShaderFile{
-    GLenum stage;
-    const char *fileName;
-}ShaderFile;
-
-
-static const ShaderFile shaderFiles[TOTAL_SHADER_BODIES] = {
+const ShaderFile shaderFiles[TOTAL_SHADER_BODIES] = {
     [WORLD_SHADER] = SHADER_FILE(GL_VERTEX_SHADER, "world"),
     [SURFACE_SHADER] = SHADER_FILE(GL_FRAGMENT_SHADER, "surface"),
 };
