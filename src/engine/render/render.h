@@ -1,6 +1,7 @@
-#ifndef RENDER_H
-#define RENDER_H
-#include "common/types.h"
+#ifndef ENGINE_RENDER_H
+#define ENGINE_RENDER_H
+
+#include "engine/types.h"
 
 typedef struct InstanceXform{
     mat4 model;

@@ -7,8 +7,9 @@
 int Platform_Init(SDL_Window* window);
 
 
-//fNames should be relative to `assets/`
-int ReadAssetFile(const char* fName, const char* dest);
+//Reads an asset file whole and returns a malloc'd, NUL-terminated buffer the
+//caller must free. fName is relative to assets/. Returns NULL on failure.
+char* ReadAssetFile(const char* fName);
 
 
 #endif

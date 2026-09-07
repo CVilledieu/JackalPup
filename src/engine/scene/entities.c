@@ -1,7 +1,5 @@
-#include "types.h"
-#include "logging.h"
-#include "world/ecs.h"
-
+#include "engine_config.h"
+#include "scene/ecs.h"
 
 
 Entities* CreateECS(size_t limit){

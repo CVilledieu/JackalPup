@@ -1,6 +1,5 @@
 #include "render_config.h"
 #include "glad/glad.h"
-#include "shaders.h"
 #include "platform/platform.h"
 
 
@@ -8,7 +7,7 @@
 typedef struct DrawState{
     uint8_t current;
     GLsync frames[(size_t)FRAME_COUNT];
-    uint32_t Seffects[(size_t)SHADER_COUNT];
+    uint32_t effects[(size_t)SHADER_EFFECT_COUNT];
 }DrawState;
 
 
@@ -22,35 +21,21 @@ void RenderEngine_init(void){
     }
     g_drawState.current = 0;
 
-    char* worldFileData;
-    char* surfaceFileData;
+    if(!InitShaderData()){
+        return;
+    }
 
-    ReadAssetFile(WORLD_SHADER_FILE, worldFileData);
-    ReadAssetFile(SURFACE_SHADER_FILE, surfaceFileData);
+    for (int i = 0; i < SHADER_EFFECT_COUNT; i++){
+        g_drawState.effects[i] = CreateDrawEffect((ShaderEffect)i);
+    }
 
-
-    ShaderDesc transDesc = {
-        .vertexSrc = worldFileData,
-        .fragmentSrc = surfaceFileData,
-        .defines[0] = "#define TRANSPARENT_PASS",
-        .defineCount = 1,
-    };
-    ShaderDesc opaqueDesc = {
-        .vertexSrc = worldFileData,
-        .fragmentSrc = surfaceFileData,
-        .defineCount = 0,
-    };
-
-    g_drawState.Seffects[TRANSPARENT] = BuildShader(&transDesc);
-    g_drawState.Seffects[OPAQUE] = BuildShader(&opaqueDesc);
-
-    
+    FreeShaderData();
 }
 
 
 void RenderEngine_shutdown(void){
-    for (int i = 0; i < SHADER_COUNT; i++){
-        DestroyShader(g_drawState.Seffects[i]);
+    for (int i = 0; i < SHADER_EFFECT_COUNT; i++){
+        DestroyEffect(g_drawState.effects[i]);
     }
 }
 

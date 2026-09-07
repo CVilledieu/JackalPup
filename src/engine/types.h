@@ -1,7 +1,18 @@
-#ifndef TYPES_H
-#define TYPES_H
+//Types that cross module boundries
+#ifndef ENGINE_TYPES_H
+#define ENGINE_TYPES_H
 
 #include <cglm/cglm.h>
+
+//Data updated on Per Frame basis, but not linked to a single entity
+typedef struct PerFrame{
+    mat4 projection;
+    mat4 view;
+    vec4 uLightDir;
+    vec4 uLightColor;
+    vec4 uAmbient;
+} PerFrame;
+
 
 
 // Mirrors GL's DrawElementsIndirectCommand exactly.
@@ -14,7 +25,7 @@ typedef struct DrawCommand {
 } DrawCommand;
 
 typedef struct DrawGroup {
-    uint16_t     effectId;       // the ONLY per-group state
+    uint32_t     effectId;       // the ONLY per-group state
     uint32_t     commandCount;
     DrawCommand *commands;       // uploaded to a GL_DRAW_INDIRECT_BUFFER
 

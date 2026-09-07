@@ -1,7 +1,14 @@
-#ifndef RENDER_SHADERS_H
-#define RENDER_SHADERS_H
+#ifndef ENGINE_RENDER_SHADERS_H
+#define ENGINE_RENDER_SHADERS_H
 
-#include "glad/glad.h"
+
+//One row per shader source file. Index = ShaderBody. File names are relative to assets/.
+typedef struct ShaderFile{
+    GLenum stage;
+    const char *fileName;
+}ShaderFile;
+
+extern ShaderEffectDef shaderEffects;
 
 
 #endif
