@@ -43,21 +43,8 @@ typedef struct ShaderEffectDef{
 }ShaderEffectDef;
 
 
-
-//Load every shader source body from disk once. Returns 1 on success, 0 on failure.
-uint8_t InitShaderData(void);
-//Release the source bodies loaded by InitShaderData; safe to call after all effects are built.
-void FreeShaderData(void);
-//Compile and link the requested effect, returning its program ID (0 on failure).
-uint32_t CreateDrawEffect(ShaderEffect effect);
-//Delete a program previously returned by CreateDrawEffect.
-void DestroyEffect(uint32_t program);
-
-
-
 extern const ShaderFile shaderFiles[TOTAL_SHADER_BODIES];
 extern const ShaderEffectDef shaderEffects[SHADER_EFFECT_COUNT];
-
 
 
 #endif
