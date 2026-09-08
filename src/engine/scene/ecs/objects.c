@@ -2,10 +2,7 @@
 #include <stdlib.h>
 
 
-
-ComponentId RegisterComponent(ComponentRegistry* reg, uint16_t size, uint16_t align, const char* name){}
-
-static void *aligned_column_alloc(uint16_t align, uint16_t elemSize, uint32_t capacity){
+static void* aligned_column_alloc(uint16_t align, uint16_t elemSize, uint32_t capacity){
     size_t bytes = (size_t) elemSize * capacity;
     
     if(align < sizeof(void*)) {
@@ -14,6 +11,11 @@ static void *aligned_column_alloc(uint16_t align, uint16_t elemSize, uint32_t ca
     bytes = (bytes + align - 1) & ~((size_t)align - 1);//Round up
     return aligned_alloc(align, bytes); 
 }
+
+
+ComponentId RegisterComponent(ComponentRegistry* reg, uint16_t size, uint16_t align, const char* name){}
+
+
 
 
 void CreateTalbe(Table* table, const ComponentRegistry* reg, const ComponentId* ids, uint16_t columnCount, uint32_t capacity){
@@ -38,3 +40,4 @@ void CreateTalbe(Table* table, const ComponentRegistry* reg, const ComponentId* 
         col->data = aligned_column_alloc(com.alignment, com.size, capacity);
     }
 }
+

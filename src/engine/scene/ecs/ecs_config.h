@@ -17,15 +17,6 @@ typedef struct GameObject{
     uint32_t entityId;  //Id within the larger sparse set of entities
 }GameObject;
 
-//REFACTOR NEEDED:
-//During dev object list is a fixed lenth array to simplify things. In a later dev phase ill switch to a dynamic array
-typedef struct ObjectList{
-    uint16_t count;
-    // uint16_t limit; //Here for when the this becomes a dynamic array 
-    GameObject objects[MAX_GAME_OBJECTS_TEMP]; 
-}ObjectList;
-
-
 
 typedef struct Component{
     uint16_t size;      //Size of type
@@ -39,7 +30,6 @@ typedef struct ComponentRegistry{
 }ComponentRegistry;
 
 
-
 typedef struct Column {
     void *data;
     ComponentId componentId;
@@ -47,13 +37,14 @@ typedef struct Column {
     uint16_t alignment;
 } Column;
 
+
 typedef struct Table{
     uint16_t columnCount;
+    Column *columns;
+
     uint16_t objectCount;
     uint16_t objectCapacity;
-
-    Column *columns;
-    ObjectList *objects;
+    GameObject *objects;
 }Table;
 
 
