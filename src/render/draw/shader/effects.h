@@ -1,13 +1,16 @@
 #ifndef DRAW_SHADER_EFFECTS_H
 #define DRAW_SHADER_EFFECTS_H
 
+typedef uint32_t Effect;
 
-//Shader version data included on all shaders
-#define SHADER_VERSION "#version 460 core \n"
 
-typedef enum Effects{
-    TOTAL_SHADER_EFFECTS,
-}Effects;
+//Shader Effect Recipe
+typedef struct SER{
+    const char* body;
+    const char* options;
+    GLenum stageType;
+}SER;
+
 
 
 #endif
