@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include "glad/glad.h"
 #include "common/util.h"
-#include "engine/render/shaders/shaders.h"
+#include "render/draw/shaders/shaders.h"
 
 //Shader version data included on all shaders
 #define SHADER_VERSION "#version 460 core \n"

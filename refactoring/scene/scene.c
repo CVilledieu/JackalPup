@@ -1,5 +1,5 @@
-#include "engine/scene/scene.h"
-#include "engine/types.h"
+#include "render/scene/scene.h"
+#include "render/types.h"
 
 typedef struct Scene{
     DrawGroup *drawGroups;

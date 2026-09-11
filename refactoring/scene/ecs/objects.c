@@ -1,5 +1,4 @@
 #include "engine/scene/ecs/ecs_config.h"
-#include <stdlib.h>
 
 
 static void* aligned_column_alloc(uint16_t align, uint16_t elemSize, uint32_t capacity){
@@ -13,7 +12,11 @@ static void* aligned_column_alloc(uint16_t align, uint16_t elemSize, uint32_t ca
 }
 
 
-ComponentId RegisterComponent(ComponentRegistry* reg, uint16_t size, uint16_t align, const char* name){}
+ComponentId RegisterComponent(ComponentRegistry* reg, uint16_t size, uint16_t align){
+    Component* com = &reg->components[reg->count++];
+    com->size = size;
+    com->alignment = align;
+}
 
 
 

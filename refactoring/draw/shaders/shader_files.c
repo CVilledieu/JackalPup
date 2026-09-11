@@ -1,5 +1,5 @@
-#include "engine/render/shaders/shader_config.h"
-#include "render_config.h"
+#include "render/draw/shaders/shader_config.h"
+#include "draw_config.h"
 
 #define SHADER_FILE_NAME(name) "shaders/" name ".glsl"
 #define SHADER_FILE(stageType, name) { \

@@ -1,16 +1,12 @@
 #ifndef ENGINE_SCENE_ECS_CONFIG_H
 #define ENGINE_SCENE_ECS_CONFIG_H
 
-#include <stdint.h>
 #include "engine/scene/ecs/ecs.h"
-
-
-#define MAX_COMPONENTS 32
-#define MAX_GAME_OBJECTS_TEMP 128
 
 typedef uint16_t ObjectId;
 typedef uint16_t ComponentId;
 typedef uint16_t TableId;
+
 
 typedef struct GameObject{
     uint16_t generation;
@@ -22,6 +18,13 @@ typedef struct Component{
     uint16_t size;      //Size of type
     uint16_t alignment; //Alignment of type
 }Component;
+
+typedef struct Entity{
+    uint16_t generation;
+    TableId table;  //Which table the Entity belongs to
+    ObjectId object; //The row within the table
+}Entity;
+
 
 
 typedef struct ComponentRegistry{
@@ -49,9 +52,35 @@ typedef struct Table{
 
 
 
+
+
 #define REGISTER_COMPONENT(reg, T) \
     RegisterComponent((reg), sizeof(T), _Alignof(T))
+    
+ComponentId RegisterComponent(ComponentRegistry* reg, uint16_t size, uint16_t align);
 
-ComponentId RegisterComponent(ComponentRegistry* reg, uint16_t size, uint16_t align, const char* name);
+
+//Entities
+//========
+
+//Matched array length to entities for simplicity during dev
+//Once an entity is free their ID is added to Freed list to be reused
+//Freed->next = 0 means Freed is empty
+typedef struct Freed{
+    EntityId* ids; //dense list
+    uint32_t next;
+}Freed;
+
+//Sparse set tracking the relation from entity to object
+typedef struct Entities{
+    Entity* list;
+    Freed recycle;
+    uint32_t count;
+    uint32_t capacity;
+}Entities;
+
+int Entities_init(Entities* ent, uint32_t cap);
+EntityId NewEntity(Entities* ent);
+
 
 #endif

@@ -1,10 +1,9 @@
-#ifndef RENDER_CONFIG_H
-#define RENDER_CONFIG_H
+#ifndef RENDER_DRAW_CONFIG_H
+#define RENDER_DRAW_CONFIG_H
 
 #include <stdint.h>
 #include "glad/glad.h"
 #include "common/util.h"
-#include "engine/render/render.h"
 
 #define AWAIT_GPU_TIMEOUT 1000000ULL 
 #define FRAME_COUNT 3

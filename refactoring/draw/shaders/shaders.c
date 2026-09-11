@@ -9,8 +9,8 @@
     FreeShaderData to reduce memory footprint.
 */
 
-#include "engine/render/shaders/shader_config.h"
-#include "render_config.h"
+#include "render/draw/shaders/shader_config.h"
+#include "render/draw/draw_config.h"
 #include "platform/platform.h"
 #include "common/logging.h"
 #include <stdlib.h>
